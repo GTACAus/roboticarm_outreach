@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTAC Robotics Design Thinking</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --eggshell: #F9F6E7;
+    --sodium-flame: #FF6D3A;
+    --cadmium-yellow: #FFCD1F;
+    --chlorophyll-green: #00BC74;
+    --aquamarine: #6BE7BE;
+    --lavender: #C0ADFF;
+    --cobalt-blue: #4C34E5;
+    --onyx: #272A24;
+}
+
+body {
+    font-family: 'Figtree', sans-serif;
+    margin: 0;
+    padding: 30px;
+    background-color: var(--eggshell);
+    color: var(--onyx);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: var(--cobalt-blue);
+    border-bottom: 4px solid var(--sodium-flame);
+    padding-bottom: 10px;
+}
+
+.gtac-logo {
+    max-height: 50px;
+}
+
+.container {
+    padding: 25px;
+    border: 1px solid var(--aquamarine);
+    border-radius: 10px;
+    background-color: var(--eggshell);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.step-title {
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--cobalt-blue);
+}
+
+.info-text {
+    line-height: 1.6;
+}
+
+.dropdown-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.dropdown {
+    min-width: 220px;
+    flex: 1 1 220px;
+}
+
+.dropdown-heading {
+    color: var(--sodium-flame);
+    font-weight: bold;
+}
+
+.dropdown-sub {
+    color: var(--chlorophyll-green);
+    font-size: 0.9em;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+#output {
+    margin-top: 20px;
+    font-size: 1.4em;
+    font-weight: bold;
+    color: var(--sodium-flame);
+    text-align: center;
+}
+
+#copy-btn {
+    display: none;
+    margin-top: 20px;
+    padding: 12px 20px;
+    background-color: var(--sodium-flame);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Robotics Design Thinking</h1>
+    <img src="https://gtac.edu.au/wp-content/themes/gtac/assets/images/logo-2024.png" class="gtac-logo">
+</div>
+
+<div class="container">
+<div class="step-title">DEFINE STAGE</div>
+<div class="info-text">
+Think of the Define stage as the moment where you take your understanding of your clients wants and needs and transform it into a clear goal.<br><br>
+You pick out the most important problems your users are facing. Then, you write one simple sentence: a problem statement for our client.<br><br>
+This will explain exactly who is <b>INVOLVED</b>, what kind of way we will problem-solve (<b>VERB</b>) and what result we want (<b>EVENT</b>).
+</div>
+</div>
+
+<div class="container">
+<div class="step-title">STEP ONE: Select a Character</div>
+<label><input type="radio" name="character" value="Bas"> Bas</label>
+<label><input type="radio" name="character" value="Zahara"> Zahara</label>
+<label><input type="radio" name="character" value="Tahlia"> Tahlia</label>
+</div>
+
+<div class="container">
+<div class="step-title">STEP TWO: Select options</div>
+
+<div class="dropdown-row">
+
+<div class="dropdown">
+<div class="dropdown-heading">Involved</div>
+<div class="dropdown-sub">Who is involved?</div>
+<select id="involved">
+<option value="">-- Select --</option>
+<option value="my team">my team</option>
+<option value="my class">my class</option>
+</select>
+</div>
+
+<div class="dropdown">
+<div class="dropdown-heading">Verb</div>
+<div class="dropdown-sub">What are you trying to do?</div>
+<select id="verb">
+<option value="">-- Select --</option>
+<option value="improve">improve</option>
+<option value="build">build</option>
+<option value="invent">invent</option>
+<option value="collect data">collect data</option>
+<option value="code">code</option>
+<option value="make">make</option>
+<option value="increase">increase</option>
+<option value="enable">enable</option>
+<option value="control">control</option>
+<option value="use">use</option>
+</select>
+</div>
+
+<div class="dropdown">
+<div class="dropdown-heading">Event</div>
+<div class="dropdown-sub">What does the action apply to?</div>
+<select id="event">
+<option value="">-- Select character first --</option>
+</select>
+</div>
+
+</div>
+</div>
+
+<div class="container">
+<div id="output">Your HIVE statement will appear here.</div>
+<button id="copy-btn">Copy Statement</button>
+</div>
+
+<script>
+
+const eventOptions = {
+
+Bas: [
+    "holding different utensils effectively",
+    "holding multiple utensils at once",
+    "increasing weight capacity",
+    "coordinated tool rotation"
+],
+
+Zahara: [
+    "faster drumming speed",
+    "extended reach to instruments",
+    "consistent rhythmic timing",
+    "integrated synthesiser functionality"
+],
+
+Tahlia: [
+    "precise mouse control",
+    "faster cursor movement",
+    "reliable click interaction",
+    "effective keyboard use",
+    "combined keyboard and mouse control",
+    "VR interaction control"
+]
+
+};
+
+
+function generateSentence(involved, verb, event) {
+
+    if (["build", "invent", "make"].includes(verb)) {
+        return `How can ${involved} ${verb} a solution to support ${event}?`;
+    }
+
+    if (verb === "collect data") {
+        return `How can ${involved} collect data to better understand ${event}?`;
+    }
+
+    if (["improve", "increase", "control"].includes(verb)) {
+        return `How can ${involved} ${verb} ${event}?`;
+    }
+
+    if (["enable", "use"].includes(verb)) {
+        return `How can ${involved} ${verb} systems for ${event}?`;
+    }
+
+    if (verb === "code") {
+        return `How can ${involved} code a solution to improve ${event}?`;
+    }
+
+    return `How can ${involved} ${verb} ${event}?`;
+}
+
+
+document.querySelectorAll('input[name="character"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+
+        const selected = document.querySelector('input[name="character"]:checked').value;
+        const eventSelect = document.getElementById('event');
+
+        eventSelect.innerHTML = '<option value="">-- Select --</option>' +
+            eventOptions[selected].map(e => `<option value="${e}">${e}</option>`).join('');
+
+        update();
+    });
+});
+
+
+function update() {
+    const involved = document.getElementById("involved").value;
+    const verb = document.getElementById("verb").value;
+    const event = document.getElementById("event").value;
+
+    const output = document.getElementById("output");
+    const copyBtn = document.getElementById("copy-btn");
+
+    if (involved && verb && event) {
+        output.textContent = generateSentence(involved, verb, event);
+        copyBtn.style.display = "inline-block";
+    } else {
+        output.textContent = "Your HIVE statement will appear here.";
+        copyBtn.style.display = "none";
+    }
+}
+
+document.getElementById("involved").addEventListener("change", update);
+document.getElementById("verb").addEventListener("change", update);
+document.getElementById("event").addEventListener("change", update);
+
+document.getElementById("copy-btn").addEventListener("click", () => {
+    navigator.clipboard.writeText(document.getElementById("output").textContent);
+});
+
+</script>
+
+</body>
+</html>
