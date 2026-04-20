@@ -187,10 +187,32 @@ iframe{
 let current = 0;
 const cards = document.querySelectorAll('.card');
 
+function updateNavButtons(){
+  cards.forEach((card, index) => {
+    const prevBtn = card.querySelector('.nav-buttons button:first-child');
+    const nextBtn = card.querySelector('.nav-buttons button:last-child');
+
+    // Prev button
+    if(index === 0){
+      prevBtn.style.visibility = (current === 0) ? 'hidden' : 'visible';
+    } else {
+      prevBtn.style.visibility = (index === current) ? 'visible' : prevBtn.style.visibility;
+    }
+
+    // Next button
+    if(index === cards.length - 1){
+      nextBtn.style.visibility = (current === cards.length - 1) ? 'hidden' : 'visible';
+    } else {
+      nextBtn.style.visibility = (index === current) ? 'visible' : nextBtn.style.visibility;
+    }
+  });
+}
+
 function show(i){
   cards[current].classList.remove('active');
   current = i;
   cards[current].classList.add('active');
+  updateNavButtons();
 }
 
 function nextPage(){
@@ -200,7 +222,9 @@ function nextPage(){
 function prevPage(){
   if(current > 0) show(current - 1);
 }
-</script>
 
+// initialize on load
+updateNavButtons();
+</script>
 </body>
 </html>
