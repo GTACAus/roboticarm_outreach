@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTAC - SPIKE to Robot Inventor Firmware Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --eggshell: #F9F6E7;
+    --sodium-flame: #FF6D3A;
+    --cadmium-yellow: #FFCD1F;
+    --chlorophyll-green: #00BC74;
+    --aquamarine: #6BE7BE;
+    --lavender: #C0ADFF;
+    --cobalt-blue: #4C34E5;
+    --onyx: #272A24;
+
+    --text-on-light: var(--onyx);
+}
+
+body {
+    font-family: 'Figtree', sans-serif;
+    margin: 0;
+    padding: 30px;
+    background-color: var(--eggshell);
+    color: var(--text-on-light);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.gtac-logo {
+    max-height: 50px;
+}
+
+h1 {
+    color: var(--cobalt-blue);
+    border-bottom: 4px solid var(--sodium-flame);
+    padding-bottom: 10px;
+    margin-bottom: 0;
+}
+
+h2 {
+    margin-top: 40px;
+    border-left: 5px solid var(--chlorophyll-green);
+    padding-left: 10px;
+}
+
+.container {
+    padding: 30px;
+    border: 1px solid var(--aquamarine);
+    border-radius: 10px;
+    background-color: var(--eggshell);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.admin-warning {
+    background-color: var(--cadmium-yellow);
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.download-button {
+    display: inline-block;
+    padding: 18px 30px;
+    font-size: 1.2em;
+    font-weight: 700;
+    background-color: var(--sodium-flame);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+.download-button:hover {
+    background-color: var(--cobalt-blue);
+}
+
+ol {
+    margin-top: 15px;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.troubleshooting {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+details {
+    margin-bottom: 12px;
+}
+
+summary {
+    font-weight: 600;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>GTAC – SPIKE to Robot Inventor Firmware Recovery Tool</h1>
+    <img src="https://gtac.edu.au/wp-content/themes/gtac/assets/images/logo-2024.png" alt="GTAC Logo" class="gtac-logo">
+</div>
+
+<div class="container">
+
+<div class="admin-warning">
+⚠️ This tool must be run as <strong>Administrator</strong> on a Windows computer.
+Right-click the downloaded file and select <strong>Run as Administrator</strong>.
+</div>
+
+<p>
+If a LEGO Hub has been accidentally restored to SPIKE firmware,
+this tool will return it to LEGO Mindstorms Robot Inventor firmware so it can be used again in the Mindstorms Inventor App.
+</p>
+
+<br>
+
+<button class="download-button" onclick="downloadFile()">Download Firmware Recovery Tool</button>
+
+<h2>How to Use</h2>
+
+<ol>
+<li>Download the tool using the button above.</li>
+<li>Right-click <strong>fix.bat</strong> and choose <strong>Run as Administrator</strong>.</li>
+<li>Follow the on-screen instructions carefully.</li>
+<li>When prompted, put the hub into <strong>bootloader (colour cycling) mode</strong>:</li>
+<ul>
+<li>Turn hub off completely.</li>
+<li>Hold the Bluetooth button.</li>
+<li>Plug in USB while still holding the button.</li>
+<li>Continue holding until colours cycle RED → GREEN → BLUE → PURPLE.</li>
+</ul>
+<li>Follow the Zadig driver installation steps when they appear.</li>
+<li>Wait for flashing to complete.</li>
+</ol>
+
+<h2>Important Notes</h2>
+
+<ul>
+<li>If the hub does <strong>not appear</strong> in Zadig after clicking "List All Devices", your computer likely already has the correct WinUSB driver installed. Close Zadig and continue.</li>
+<li>If LEGO Mindstorms Inventor later displays a <strong>motor update required</strong> message, ignore this and continue. It does not affect hub firmware restoration.</li>
+</ul>
+
+<h2>Troubleshooting</h2>
+
+<div class="troubleshooting">
+
+<details>
+<summary>Hub not appearing in Zadig</summary>
+Ensure the hub is in colour-cycling bootloader mode.  
+If it still does not appear, the driver may already be installed — close Zadig and continue.
+</details>
+
+<details>
+<summary>Flash failed message</summary>
+Confirm:
+<ul>
+<li>Hub is in colour cycling mode</li>
+<li>USB cable supports data (not charge-only)</li>
+<li>Driver was installed correctly</li>
+</ul>
+Restart the process if needed.
+</details>
+
+<details>
+<summary>Windows SmartScreen warning</summary>
+Click “More info” → “Run anyway”.  
+This appears because the batch file is not digitally signed.
+</details>
+
+<details>
+<summary>Python installation seems stuck</summary>
+Close the window and run the tool again.  
+The script automatically installs Python if required.
+</details>
+
+<details>
+<summary>Hub still not recognised in Inventor app</summary>
+Unplug the hub, restart the computer, and reconnect the hub before reopening the Inventor app.
+</details>
+
+</div>
+
+</div>
+
+<script>
+function downloadFile() {
+    const link = document.createElement('a');
+    link.href = "fix.bat";
+    link.download = "fix.bat";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
+
+</body>
+</html>
